@@ -2,7 +2,6 @@ include:
   - ./supabase/docker/docker-compose.yml
 
 volumes:
-  flowise_config:
   n8n_storage:
   ollama_storage:
   qdrant_storage:
@@ -69,7 +68,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"        
     volumes:
-        - flowise_config:/root/.flowise
+        - ~/.flowise:/root/.flowise
     entrypoint: /bin/sh -c "sleep 3; flowise start"
 
   open-webui:
@@ -329,7 +328,7 @@ services:
         max-size: "1m"
         max-file: "1"      
 
-  ollama:
+  ollama-cpu:
     profiles: ["cpu"]
     <<: *service-ollama
 
@@ -352,7 +351,7 @@ services:
       - "/dev/kfd"
       - "/dev/dri"
 
-  ollama-pull-llama:
+  ollama-pull-llama-cpu:
     profiles: ["cpu"]
     <<: *init-ollama
     depends_on:
